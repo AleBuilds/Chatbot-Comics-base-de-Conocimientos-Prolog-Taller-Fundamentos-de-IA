@@ -62,9 +62,9 @@ anio_publicacion(deathstroke_the_terminator_2026, 2026).
 anio_publicacion(superman_2023, 2023).
 anio_publicacion(batman_deadpool_2025, 2025).
 anio_publicacion(what_if, 1977).
-anio_publicacion(inmortal_hulk, 2026).
+anio_publicacion(inmortal_hulk, 2018).
 anio_publicacion(x_men_united, 2026).
-anio_publicacion(king_in_black, 2026).
+anio_publicacion(king_in_black, 2019).
 anio_publicacion(batman_ano_1, 1987).
 anio_publicacion(wolverine_2024, 2024).
 anio_publicacion(magik_colossus_2026, 2026).
