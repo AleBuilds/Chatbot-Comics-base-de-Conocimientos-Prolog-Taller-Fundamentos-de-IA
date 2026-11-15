@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot de Cómics - IA</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1e1e1e; color: #fff; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        #chat-container { width: 100%; max-width: 600px; background: #2d2d2d; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        #mensajes { height: 400px; overflow-y: auto; margin-bottom: 20px; padding-right: 10px; }
+        .mensaje { margin-bottom: 15px; padding: 10px; border-radius: 5px; }
+        .usuario { background: #007bff; text-align: right; margin-left: 20%; }
+        .bot { background: #444; margin-right: 20%; }
+        #input-area { display: flex; gap: 10px; }
+        input { flex: 1; padding: 10px; border: none; border-radius: 4px; background: #1e1e1e; color: white; }
+        button { padding: 10px 20px; border: none; border-radius: 4px; background: #28a745; color: white; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h2 style="text-align: center; margin-top: 0;">Asistente de Cómics</h2>
+        <div id="mensajes"></div>
+        <div id="input-area">
+            <input type="text" id="userInput" placeholder="Pregunta sobre DC, Marvel, autores..." onkeypress="handleKeyPress(event)">
+            <button onclick="enviarMensaje()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        async function enviarMensaje() {
+            const inputField = document.getElementById("userInput");
+            const mensaje = inputField.value.trim();
+            if (!mensaje) return;
+
+            agregarMensaje("Tú", mensaje, "usuario");
+            inputField.value = "";
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ mensaje: mensaje })
+                });
+                const data = await response.json();
+                agregarMensaje("Asistente", data.respuesta, "bot");
+            } catch (error) {
+                agregarMensaje("Sistema", "Error de conexión.", "bot");
+            }
+        }
+
+        function agregarMensaje(remitente, texto, clase) {
+            const div = document.createElement("div");
+            div.className = `mensaje ${clase}`;
+            div.innerHTML = `<strong>${remitente}:</strong><br>${texto}`;
+            document.getElementById("mensajes").appendChild(div);
+            document.getElementById("mensajes").scrollTop = document.getElementById("mensajes").scrollHeight;
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === "Enter") enviarMensaje();
+        }
+    </script>
+</body>
+</html>
